@@ -11,8 +11,9 @@ def emailToNameMapping(emailList,nameList):
 							#name's(eg: Sharanpreet Singh Lobana) individual components(eg Singh)
 
 		#Filter the email for computing the editDistance by removing the digits 
-		filteredEmail = ''.join([i for i in emailList[j].split('@')[0] if not i.isdigit()])
-		
+		filteredEmail = emailList[j].split('@')[0]
+		filteredEmail = ''.join([str(i) for i in filteredEmail if not i.isdigit()])
+		print filteredEmail
 		for n in range(len(nameList)):
 			if len(nameList[n].split())>1:  #if name consists of more than one component(eg Rahul Kashyap)
 				subnames = nameList[n].split() #separate name into its components
@@ -37,7 +38,30 @@ def emailToNameMapping(emailList,nameList):
 				if distance < editdistance:
 					editdistance = distance #if editDistance is less than current minimum
 					name = nameList[n]      #Current best mapping
-			
+				
+				#Hardcoding the initials matching for len(subnames)<=3
+				if len(subnames) <=4 and len(subnames) >=2:
+					booleanList = list()
+					length = len(subnames)
+					if length == 4:
+						booleanList = [[0,0,0,1],[0,0,1,0],[0,0,1,1],[0,1,0,0],[0,1,0,1],[0,1,1,0],\
+						[0,1,1,1],[1,0,0,0],[1,0,0,1],[1,0,1,0],[1,0,1,1],[1,1,0,0],[1,1,0,1],[1,1,1,0],[1,1,1,1]]
+					elif length == 3:
+						booleanList = [[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]
+					else:
+						booleanList = [[0,1],[1,0],[1,1]]
+					for z in range(len(booleanList)):
+						smallText =''
+						smallList = booleanList[z]
+						for y in range(length):
+							if smallList[y] == 1:
+								smallText = smallText + subnames[y][0].lower()
+							else:
+								smallText = smallText + subnames[y].lower()
+						distance = metrics.edit_distance(filteredEmail.lower(),smallText)
+						if distance < editdistance:
+							editdistance = distance #if editDistance is less than current minimum
+							name = nameList[n]
 			#if name contains a single character
 			else:
 				distance = metrics.edit_distance(filteredEmail.lower(),nameList[n].lower())
@@ -49,5 +73,5 @@ def emailToNameMapping(emailList,nameList):
 			finalEmailNameMapping[emailList[j]] = name #Update the mapping frequency corresponding to given name
 		except:
 			"List index out of bounds error probably"
-
+	# print finalEmailNameMapping
 	return finalEmailNameMapping
