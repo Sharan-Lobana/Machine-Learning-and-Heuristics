@@ -1,4 +1,1 @@
-A simple heuristic based approach to map an emailID to its probable user's name by using minimum editDistance.
-The function takes a list of emailIDs as first argument and a list of probable names as second argument.
-The return value is a dictionary having emailID as key and the mapped name as the value
-The function works best when the list of names has more entries than list of emailIDs
+Program to download all the pdfs from a particular domain through recursive crawling and extracting the emails from each pdf.After extraction of emails the program EmailToNameMapping can be used for finding probable owners of each email ID.The program makes use of heuristic based approach for the above mentioned task.Any feedback is highly appreciated.
