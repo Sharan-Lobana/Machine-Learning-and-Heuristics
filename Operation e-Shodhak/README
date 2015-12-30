@@ -1,1 +1,0 @@
-Program to download all the pdfs from a particular domain through recursive crawling and extracting the emails from each pdf.After extraction of emails the program EmailToNameMapping can be used for finding probable owners of each email ID.The program makes use of heuristic based approach for the above mentioned task.Any feedback is highly appreciated.
